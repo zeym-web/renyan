@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Renyan | Catalogue de Produits</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1>RENYAN</h1>
+            <p>Votre boutique de confiance à N'Djamena</p>
+        </div>
+    </header>
+
+    <nav>
+        <button onclick="filtrer('Tous')">Tous les produits</button>
+        <button onclick="filtrer('Auto')">🚗 Auto & Accessoires</button>
+        <button onclick="filtrer('Cosmétique')">✨ Beauté & Cosmétiques</button>
+        <button onclick="filtrer('Mobile')">📱 High-Tech & Mobile</button>
+        <button onclick="filtrer('Électronique')">🔌 Électronique & Maison</button>
+    </nav>
+
+    <main class="container">
+        <div id="catalogue" class="grid">
+            <!-- Les produits vont s'afficher ici dynamiquement -->
+        </div>
+    </main>
+
+    <footer>
+        <div class="container contact-info">
+            <h3>📍 Nos Contacts & Localisation</h3>
+            <p><strong>Adresse :</strong> Chagoua, Axe 5/5, N'Djamena, Tchad</p>
+            <p><strong>Téléphone :</strong> +235 69706498</p>
+            <p><strong>Email :</strong> reneewolo85@gmail.com</p>
+            <p style="margin-top: 15px; font-size: 0.85em; opacity: 0.7;">&copy; 2026 Renyan. Tous droits réservés.</p>
+        </div>
+    </footer>
+
+    <script>
+        let tousLesProduits = [];
+
+        async function chargerProduits() {
+            const res = await fetch('/api/produits');
+            tousLesProduits = await res.json();
+            afficherProduits(tousLesProduits);
+        }
+
+        function afficherProduits(liste) {
+            const conteneur = document.getElementById('catalogue');
+            if(liste.length === 0) {
+                conteneur.innerHTML = "<p class='vide'>Aucun produit disponible dans cette catégorie pour le moment.</p>";
+                return;
+            }
+            conteneur.innerHTML = liste.map(p => `
+                <div class="card">
+                    <img src="${p.image_url}" alt="${p.nom}">
+                    <div class="card-body">
+                        <span class="badge">${p.categorie}</span>
+                        <h3>${p.nom}</h3>
+                        <p class="description">${p.description}</p>
+                        <div class="card-footer">
+                            <span class="prix">${p.prix} FCFA</span>
+                            <a href="https://wa.me/23569706498?text=Bonjour,%20je%20suis%20intéressé(e)%20par%20le%20produit%20:%20${encodeURIComponent(p.nom)}" target="_blank" class="btn-buy">Commander</a>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function filtrer(cat) {
+            if (cat === 'Tous') {
+                afficherProduits(tousLesProduits);
+            } else {
+                const filtres = tousLesProduits.filter(p => p.categorie.includes(cat));
+                afficherProduits(filtres);
+            }
+        }
+
+        window.onload = chargerProduits;
+    </script>
+</body>
+</html>

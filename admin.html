@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Renyan - Administration</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header style="background: #0a192f; padding: 25px 0;">
+        <div class="container">
+            <h1>Espace Admin | Renyan</h1>
+            <a href="/" style="color: var(--accent); font-weight: bold; text-decoration: none;">← Retourner sur le site vitrine</a>
+        </div>
+    </header>
+
+    <main class="container">
+        <div class="form-box">
+            <h2>Ajouter un produit au catalogue</h2>
+            <form action="/api/produits" method="POST" id="formAdd">
+                <label>Code Secret Admin :</label>
+                <input type="password" name="password" required placeholder="Entrez le mot de passe secret">
+
+                <label>Nom de l'article :</label>
+                <input type="text" name="nom" required placeholder="Ex: Enceinte Bluetooth Waterproof">
+
+                <label>Rayon / Catégorie :</label>
+                <select name="categorie" required>
+                    <option value="🚗 Auto & Accessoires">🚗 Auto & Accessoires</option>
+                    <option value="✨ Beauté & Cosmétiques">✨ Beauté & Cosmétiques</option>
+                    <option value="📱 High-Tech & Mobile">📱 High-Tech & Mobile</option>
+                    <option value="🔌 Électronique & Maison">🔌 Électronique & Maison</option>
+                </select>
+
+                <label>Prix de vente (FCFA) :</label>
+                <input type="number" name="prix" required placeholder="Ex: 25000">
+
+                <label>Photo du produit (Depuis votre PC/Téléphone) :</label>
+                <div class="file-input-container">
+                    <input type="file" id="filePicker" accept="image/*" required>
+                    <p style="font-size: 0.85em; color: #64748b; margin-top: 5px;">Cliquez pour choisir un fichier</p>
+                </div>
+                <input type="hidden" name="image_base64" id="image_base64">
+
+                <label>Description & Détails :</label>
+                <textarea name="description" rows="4" required placeholder="Caractéristiques, taille, efficacité..."></textarea>
+
+                <button type="submit" class="btn-buy" style="width: 100%; margin-top: 20px; background: var(--primary); border: none; padding: 14px; border-radius: 8px; cursor: pointer;">Mettre en vente sur Renyan</button>
+            </form>
+        </div>
+
+        <h2 style="margin-top: 40px; text-align: center;">Articles actuellement affichés</h2>
+        <div id="liste-admin" class="grid"></div>
+    </main>
+
+    <script>
+        // Convertit l'image locale en texte transmissible de manière transparente
+        document.getElementById('filePicker').addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(event) {
+                    document.getElementById('image_base64').value = event.target.result;
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+
+        async function chargerAdmin() {
+            const res = await fetch('/api/produits');
+            const produits = await res.json();
+            const conteneur = document.getElementById('liste-admin');
+
+            if(produits.length === 0) {
+                conteneur.innerHTML = "<p style='grid-column: 1/-1; text-align:center; color:#94a3b8;'>Aucun produit en ligne actuellement.</p>";
+                return;
+            }
+
+            conteneur.innerHTML = produits.map(p => `
+                <div class="card">
+                    <div class="card-body">
+                        <h3 style="font-size: 1.1em;">${p.nom}</h3>
+                        <p style="color: var(--accent); font-weight: bold; margin: 5px 0;">${p.prix} FCFA</p>
+                        <form action="/api/produits/supprimer" method="POST" style="margin-top: 10px;">
+                            <input type="hidden" name="id" value="${p.id}">
+                            <input type="password" name="password" placeholder="Mot de passe secret" required style="padding: 8px; font-size: 0.85em; margin-bottom: 5px; width:100%;">
+                            <button type="submit" style="background: #ef4444; color: white; border: none; padding: 8px; border-radius: 6px; cursor: pointer; width: 100%; font-weight: bold;">Retirer de la vente</button>
+                        </form>
+                    </div>
+                </div>
+            `).join('');
+        }
+        window.onload = chargerAdmin;
+    </script>
+</body>
+</html>

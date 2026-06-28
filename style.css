@@ -1,0 +1,236 @@
+:root {
+    --primary: #0a192f; /* Bleu nuit chic */
+    --accent: #d4af37;  /* Or premium */
+    --text: #2c3e50;
+    --bg: #f4f6f9;
+    --success: #10b981; /* Vert émeraude */
+}
+
+* { 
+    box-sizing: border-box; 
+    margin: 0; 
+    padding: 0; 
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; 
+}
+
+body { 
+    background: var(--bg); 
+    color: var(--text); 
+    line-height: 1.6;
+}
+
+.container { 
+    width: 92%; 
+    max-width: 1200px; 
+    margin: 0 auto; 
+}
+
+/* Header royal */
+header { 
+    background: linear-gradient(135deg, #0a192f 0%, #172a45 100%); 
+    color: white; 
+    padding: 40px 0; 
+    text-align: center; 
+    border-bottom: 3px solid var(--accent);
+}
+
+header h1 { 
+    font-size: 2.8em; 
+    letter-spacing: 4px; 
+    font-weight: 800;
+    color: #fff;
+    text-shadow: 0 2px 4px rgba(0,0,0,0.2);
+}
+
+header p {
+    color: #8892b0;
+    font-size: 1.1em;
+    margin-top: 5px;
+}
+
+/* Barre de navigation défilante sur mobile */
+nav { 
+    display: flex; 
+    justify-content: flex-start; 
+    overflow-x: auto; 
+    white-space: nowrap;
+    gap: 10px; 
+    background: white; 
+    padding: 12px; 
+    box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+    sticky: top;
+    z-index: 100;
+    -webkit-overflow-scrolling: touch;
+}
+
+nav::-webkit-scrollbar { display: none; } /* Cache la barre de défilement pour faire plus appli */
+
+nav button { 
+    padding: 10px 20px; 
+    border: 1px solid #e2e8f0; 
+    background: white; 
+    cursor: pointer; 
+    font-weight: 600; 
+    border-radius: 25px;
+    color: var(--primary);
+    transition: all 0.3s ease;
+    font-size: 0.9em;
+}
+
+nav button:hover, nav button.active { 
+    background: var(--primary); 
+    color: white; 
+    border-color: var(--primary);
+}
+
+/* Grille de produits */
+.grid { 
+    display: grid; 
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); 
+    gap: 20px; 
+    margin: 30px 0; 
+}
+
+/* Cartes produits au design épuré */
+.card { 
+    background: white; 
+    border-radius: 16px; 
+    overflow: hidden; 
+    box-shadow: 0 10px 20px rgba(0,0,0,0.03); 
+    display: flex; 
+    flex-direction: column; 
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    border: 1px solid #edf2f7;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 30px rgba(0,0,0,0.08);
+}
+
+.card img { 
+    width: 100%; 
+    height: 240px; 
+    object-fit: cover; 
+}
+
+.card-body { 
+    padding: 18px; 
+    display: flex; 
+    flex-direction: column; 
+    flex-grow: 1; 
+}
+
+.badge { 
+    font-size: 0.75em; 
+    background: #f0f4f8;
+    color: var(--primary); 
+    font-weight: 700; 
+    padding: 4px 10px;
+    border-radius: 12px;
+    align-self: flex-start;
+    margin-bottom: 10px; 
+}
+
+.card-body h3 { 
+    font-size: 1.2em; 
+    margin-bottom: 8px; 
+    color: var(--primary); 
+    font-weight: 700;
+}
+
+.description { 
+    font-size: 0.9em; 
+    color: #64748b; 
+    line-height: 1.5; 
+    margin-bottom: 15px; 
+    flex-grow: 1; 
+}
+
+.card-footer { 
+    display: flex; 
+    justify-content: space-between; 
+    align-items: center; 
+    margin-top: auto;
+    padding-top: 10px;
+    border-top: 1px solid #f1f5f9;
+}
+
+.prix { 
+    font-size: 1.3em; 
+    font-weight: 800; 
+    color: var(--primary); 
+}
+
+.btn-buy { 
+    background: var(--success); 
+    color: white; 
+    text-decoration: none; 
+    padding: 10px 20px; 
+    border-radius: 25px; 
+    font-weight: 700; 
+    font-size: 0.9em;
+    box-shadow: 0 4px 12px rgba(16, 185, 129, 0.2);
+    transition: all 0.2s;
+}
+
+.btn-buy:hover { 
+    transform: scale(1.03);
+}
+
+/* Formulaires et Admin */
+.form-box { 
+    background: white; 
+    padding: 25px; 
+    border-radius: 16px; 
+    max-width: 550px; 
+    margin: 30px auto; 
+    box-shadow: 0 10px 25px rgba(0,0,0,0.05); 
+}
+
+.form-box h2 { margin-bottom: 20px; color: var(--primary); }
+
+.form-box label { 
+    display: block; 
+    margin: 14px 0 6px; 
+    font-weight: 600; 
+    font-size: 0.9em;
+}
+
+.form-box input, .form-box select, .form-box textarea { 
+    width: 100%; 
+    padding: 12px; 
+    border: 1px solid #cbd5e1; 
+    border-radius: 8px; 
+    background: #f8fafc;
+    font-size: 100%;
+}
+
+.form-box input:focus, .form-box select:focus, .form-box textarea:focus {
+    outline: none;
+    border-color: var(--accent);
+    background: #fff;
+}
+
+/* Pied de page chaleureux */
+footer { 
+    background: var(--primary); 
+    color: white; 
+    padding: 40px 0; 
+    text-align: center; 
+    margin-top: 60px; 
+    border-top: 4px solid var(--accent);
+}
+
+.contact-info h3 { color: var(--accent); margin-bottom: 15px; font-weight: 700;}
+.contact-info p { margin: 8px 0; font-size: 1em; color: #cbd5e1;}
+
+/* Zone de dépôt d'image stylisée */
+.file-input-container {
+    border: 2px dashed #cbd5e1;
+    padding: 20px;
+    text-align: center;
+    border-radius: 8px;
+    background: #f8fafc;
+    cursor: pointer;
+}
