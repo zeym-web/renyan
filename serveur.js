@@ -41,4 +41,4 @@ app.post('/api/produits', (req, res) => {
   res.send("Produit ajouté");
 });
 
-app.listen(PORT, () => console.log(`Renyan est prêt sur le port ${PORT}`));
+app.listen(PORT, '0.0.0.0', () => console.log(`Renyan est prêt sur le port ${PORT}`));
