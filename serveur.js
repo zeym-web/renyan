@@ -10,12 +10,10 @@ const MOT_DE_PASSE_ADMIN = "Renyan2026!";
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// CORRECTION 1: Sert les fichiers depuis la racine, pas /public
+// Sert tous les fichiers statiques: CSS, JS, Images, index.html
 app.use(express.static(__dirname)); 
 
 const DATA_FILE = path.join(__dirname, 'produits.json');
-
-// CORRECTION 2: Dossier uploads à la racine, pas /public/uploads
 const UPLOADS_DIR = path.join(__dirname, 'uploads'); 
 
 // Création des dossiers/fichiers indispensables s'ils n'existent pas
@@ -28,7 +26,7 @@ app.get('/api/produits', (req, res) => {
   res.json(JSON.parse(data));
 });
 
-// API : Ajouter un produit avec image convertie en Base64
+// API : Ajouter un produit 
 app.post('/api/produits', (req, res) => {
   const { password, nom, categorie, prix, description, image_base64 } = req.body;
 
@@ -36,9 +34,16 @@ app.post('/api/produits', (req, res) => {
     return res.status(401).send("Mot de passe administrateur incorrect.");
   }
   
-  // ... le reste de ton code API ici ...
+  // Ici tu mets le reste de ton code pour ajouter le produit
+  // ...
   
   res.send("Produit ajouté");
+});
+
+// FIX POUR "Cannot GET /" 
+// Force l'envoi de index.html quand on arrive sur /
+app.get('/', (req, res) => {
+  res.sendFile(path.join(__dirname, 'index.html'));
 });
 
 app.listen(PORT, '0.0.0.0', () => console.log(`Renyan est prêt sur le port ${PORT}`));
